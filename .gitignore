@@ -5,6 +5,7 @@ build/
 temp/
 coverage/
 dist/
+yarn*
 
 tmp/*
 !tmp/.gitkeep
