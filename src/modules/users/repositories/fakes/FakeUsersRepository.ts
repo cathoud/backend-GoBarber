@@ -1,10 +1,10 @@
 import { uuid } from 'uuidv4';
 
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+import UsersRepository from '@modules/users/repositories/IUsersRepository';
+import CreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import User from '@modules/users/infra/typeorm/entities/User';
 
-class UsersRepository implements IUsersRepository {
+class FakeUsersRepository implements UsersRepository {
   private users: User[] = [];
 
   public async findById(id: string): Promise<User | undefined> {
@@ -28,7 +28,7 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async create(userData: ICreateUserDTO): Promise<User> {
+  public async create(userData: CreateUserDTO): Promise<User> {
     const user = new User();
 
     Object.assign(user, { id: uuid() }, userData);
@@ -39,4 +39,4 @@ class UsersRepository implements IUsersRepository {
   }
 }
 
-export default UsersRepository;
+export default FakeUsersRepository;
