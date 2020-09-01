@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import MailProvider from '@shared/container/providers/MailProvider/models/MailProvider';
-import User from '../infra/typeorm/entities/User';
 import UsersRepository from '../repositories/IUsersRepository';
 import UserTokensRepository from '../repositories/IUserTokensRepository';
 
@@ -30,9 +29,12 @@ class SendForgotPasswordEmailService {
       throw new AppError('Email not found', 400);
     }
 
-    await this.userTokensRepository.generate(user.id);
+    const { token } = await this.userTokensRepository.generate(user.id);
 
-    this.mailProvider.sendMail(email, 'Recover password mail body');
+    await this.mailProvider.sendMail(
+      email,
+      `Recover password mail body: ${token}`,
+    );
   }
 }
 
